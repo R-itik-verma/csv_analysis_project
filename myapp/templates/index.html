@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>CSV FILE</title>
+	{% load static %}
+	<link rel="icon" href="{% static 'myapp/favicon-32x32.png' %}" type="image/icontype">
+    <link rel="stylesheet" type="text/css" href="{% static 'myapp/styles.css' %}">
+
+</head>
+<body>
+	
+
+    <h1 class="t1">Upload a CSV file for Data Analysis</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form }}
+        <button type="submit">Upload</button>
+    </form>
+
+    {% if first_rows %}
+        <h2 >First Few Rows of Data</h2>
+        <div  >{{ first_rows|safe }}</div>
+        
+        <h2>Summary Statistics</h2>
+        <div>{{ summary_stats|safe }}</div>
+        
+        <h2>Missing Values</h2>
+        <div>{{ missing_values|safe }}</div>
+        
+        <h2>Histograms</h2>
+        {% for plot in plots %}
+            <img src="data:image/png;base64,{{ plot }}" alt="Plot">
+        {% endfor %}
+    {% endif %}
+</body>
+</html>
